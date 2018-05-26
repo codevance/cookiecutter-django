@@ -1,0 +1,10 @@
+{
+  "project_name": "My Awesome Project",
+  "project_slug": "{{ cookiecutter.project_name.lower()|replace(' ', '_')|replace('-', '_') }}",
+  "description": "Behold My Awesome Project!",
+  "author_name": "Moacir Moda",
+  "domain_name": "codevance.com.br",
+  "email": "moacir.moda@codevance.com.br",
+  "version": "0.1.0",
+  "timezone": "America/Sao_Paulo"
+}

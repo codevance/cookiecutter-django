@@ -1,0 +1,8 @@
+# Django defaults
+SECRET_KEY='====mY_sEcReT_kEy===='
+DEBUG=True
+ALLOWED_HOSTS=*
+DATABASE_URL=postgres://{{ cookiecutter.project_slug }}:{{ cookiecutter.project_slug }}@localhost:5432/{{ cookiecutter.project_slug }}
+
+# Configure o email com sendgrid
+EMAIL_BACKEND=django.core.mail.backends.console.EmailBackend
