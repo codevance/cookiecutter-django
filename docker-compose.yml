@@ -22,21 +22,8 @@ app:
       - ./app:/usr/src/app
     links:
       - postgres:postgres
-    environment:
-      - DEBUG=True
-      - PORT=8000
-      - POSTGRES_DB_NAME=hello
-      - POSTGRES_PORT_5432_TCP_ADDR=postgres
-      - POSTGRES_PORT_5432_TCP_PORT=5432
-      - POSTGRES_USER=docker
-      - POSTGRES_PASSWORD=docker
-      - PGPASSWORD=docker
-      - SECRET_KEY=JeffreyLebowski
-      - WSGI_MODULE=hello.wsgi:application
 
-web:
-    build: nginx
-    ports:
-      - 80:80
-    links:
-      - app:app
+redis:
+  image: redis
+  ports:
+    - 6379:6379
