@@ -27,5 +27,8 @@ celery:
   build: .
   command: celery -A {{ cookiecutter.project_slug }} worker -E -B --loglevel=DEBUG
   working_dir: /app
+  links:
+    - postgres:postgres
+    - redis:redis
 
 
