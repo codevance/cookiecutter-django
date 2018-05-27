@@ -1,8 +1,6 @@
 # PostgreSQL
 postgres:
     image: postgres:9.6.0
-    ports:
-      - 5432:5432 # Bind host port 5432 to PostgreSQL port 5432
     volumes:
       - ./pgdata:/var/lib/postgresql/data
     environment:
@@ -13,15 +11,16 @@ postgres:
 # Django app
 app:
     build: .
-    command: dev
-#    command: uwsgi
+    command: python manage.py runserver 0.0.0.0:8000 -v2
+    working_dir: /app
     ports:
       - 8000:8000
       - 8001:8001
     volumes:
-      - ./app:/usr/src/app
+      - ./:/app
     links:
       - postgres:postgres
+      - redis:redis
 
 redis:
   image: redis

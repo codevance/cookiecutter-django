@@ -141,8 +141,8 @@ EMAIL_USE_TLS = config('EMAIL_USE_TLS', cast=bool, default=False)
 EMAIL_HOST_USER = config('EMAIL_HOST_USER', default=None)
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default=None)
 
-CELERY_BROKER_URL = config('CELERY_URL', default='redis://localhost:6379')
-# CELERY_RESULT_BACKEND = config('CELERY_URL', default='redis://localhost:6379')
+CELERY_BROKER_URL = config('CELERY_URL', default='redis://redis:6379')
+# CELERY_RESULT_BACKEND = config('CELERY_URL', default='redis://redis:6379')
 CELERY_ACCEPT_CONTENT = ['application/x-python-serialize', 'application/json']
 CELERY_TASK_SERIALIZER = 'pickle'
 CELERY_RESULT_SERIALIZER = 'pickle'
