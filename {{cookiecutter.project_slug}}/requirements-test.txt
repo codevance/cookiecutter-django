@@ -1,3 +1,4 @@
+-r requirements.txt
 model-mommy
 pytest
 pytest-cov
