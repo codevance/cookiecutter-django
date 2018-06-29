@@ -19,3 +19,7 @@ COPY . /app/
 
 RUN pip install -r /app/requirements.txt \
     && pip install -r /app/requirements-test.txt
+
+RUN python manage.py makemigrations \
+    && python manage.py migrate
+

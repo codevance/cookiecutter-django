@@ -9,7 +9,7 @@ postgres:
 
 app:
   build: .
-  command: python manage.py runserver 0.0.0.0:8000 -v2
+  command: gunicorn {{ cookiecutter.project_slug }}.wsgi -b 0.0.0.0:8000 
   working_dir: /app
   ports:
     - 8000:8000
