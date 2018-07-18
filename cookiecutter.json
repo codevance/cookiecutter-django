@@ -1,5 +1,5 @@
 {
-  "directory_name": "project",
+  "directory_name": "git",
   "project_name": "My Awesome Project",
   "project_slug": "{{ cookiecutter.project_name.lower()|replace(' ', '_')|replace('-', '_') }}",
   "description": "Behold My Awesome Project!",
