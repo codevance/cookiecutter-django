@@ -3,3 +3,5 @@ model-mommy
 pytest
 pytest-cov
 pytest-django
+requests-mock
+ipython

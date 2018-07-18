@@ -3,11 +3,14 @@ dj-database-url
 Django
 django-admin-rangefilter
 django-celery-beat
+django-dbbackup
 django-debug-toolbar
 django-extensions
+django-filter
 gunicorn
-psycopg2
+jsondate
+psycopg2-binary
 python-decouple
+pytz
 raven
 redis
-whitenoise

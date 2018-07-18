@@ -1,0 +1,20 @@
+version: "3.3"
+
+services:
+  database:
+    image: postgres:9.6.0
+    restart: always
+    volumes:
+      - ../pgdata:/var/lib/postgresql/data
+    environment:
+      - LC_ALL=C.UTF-8
+      - POSTGRES_PASSWORD={{ cookiecutter.project_slug }}
+      - POSTGRES_USER={{ cookiecutter.project_slug }}
+    ports:
+      - 5432:5432
+  
+  redis:
+    image: redis
+    ports:
+      - 6379:6379
+  
