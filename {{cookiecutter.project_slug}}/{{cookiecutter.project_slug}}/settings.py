@@ -15,6 +15,8 @@ from decouple import config, Csv
 from dj_database_url import parse as dburl
 from django.conf.locale.pt_BR import formats
 
+SITE_ID = 1
+
 formats.DATETIME_FORMAT = "d/m/Y H:i:s"
 formats.DATE_FORMAT = "d/m/Y"
 
@@ -30,7 +32,7 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='', cast=Csv())
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='*', cast=Csv())
 
 # Application definition
 
@@ -42,19 +44,26 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.postgres',
+    'django.contrib.sites',
+    'django.contrib.sitemaps',
 
     'raven.contrib.django.raven_compat',
     'django_extensions',
     'django_celery_beat',
     'rangefilter',
-    'debug_toolbar',
+    'dbbackup',
 
     'utils',
     'core.apps.CoreConfig',
 ]
 
+if DEBUG:
+    INSTALLED_APPS += [
+        'debug_toolbar',
+    ]
+
 MIDDLEWARE = [
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+    'django.middleware.cache.UpdateCacheMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -62,11 +71,17 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
+    'django.middleware.cache.FetchFromCacheMiddleware',
 ]
 
-if not DEBUG:
-    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# CACHE_MIDDLEWARE_ALIAS = 'default'
+# CACHE_MIDDLEWARE_SECONDS = 60
+# CACHE_MIDDLEWARE_KEY_PREFIX = 'prefix'
+
+if DEBUG:
+    MIDDLEWARE += [
+        'debug_toolbar.middleware.DebugToolbarMiddleware',
+    ]
 
 ROOT_URLCONF = '{{ cookiecutter.project_slug }}.urls'
 
@@ -99,20 +114,6 @@ DATABASES = {
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
 
-AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
-]
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
@@ -141,8 +142,7 @@ EMAIL_USE_TLS = config('EMAIL_USE_TLS', cast=bool, default=False)
 EMAIL_HOST_USER = config('EMAIL_HOST_USER', default=None)
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default=None)
 
-CELERY_BROKER_URL = config('CELERY_URL', default='redis://redis:6379')
-# CELERY_RESULT_BACKEND = config('CELERY_URL', default='redis://redis:6379')
+CELERY_BROKER_URL = config('CELERY_URL', default='redis://localhost:6379')
 CELERY_ACCEPT_CONTENT = ['application/x-python-serialize', 'application/json']
 CELERY_TASK_SERIALIZER = 'pickle'
 CELERY_RESULT_SERIALIZER = 'pickle'
@@ -152,9 +152,61 @@ RAVEN_CONFIG = {
     'dsn': config('RAVEN_CONFIG_DSN', default=''),
 }
 
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '%(asctime)s|%(levelname)5s|%(module)s| %(message)s'
+        },
+    },
+    'handlers': {
+        'stream': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose',
+        },
+    },
+    'loggers': {
+        'commands': {
+            'handlers': ['stream'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+        'tasks': {
+            'handlers': ['stream'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+        # 'django': {
+        #     'handlers': ['stream'],
+        #     'level': 'DEBUG',
+        #     'propagate': True,
+        # },
+    },
+}
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+        'LOCATION': 'cache/',
+        'TIMEOUT': None,
+        'OPTIONS': {
+            'MAX_ENTRIES': 10**10,
+        }
+    }
+}
+
+if DEBUG:
+    CACHES['default']['BACKEND'] = 'django.core.cache.backends.dummy.DummyCache'
+
 DEBUG_TOOLBAR_CONFIG = {
     'SHOW_TOOLBAR_CALLBACK': '{{ cookiecutter.project_slug }}.settings.custom_show_toolbar',
 }
+
+DBBACKUP_STORAGE = 'django.core.files.storage.FileSystemStorage'
+DBBACKUP_STORAGE_OPTIONS = {'location': config('DBBACKUP_STORAGE_OPTIONS',
+                                               default='/app/')}
 
 
 def custom_show_toolbar(request):
