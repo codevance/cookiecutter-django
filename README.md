@@ -44,4 +44,9 @@ Run tests:
 make test
 ```
 
+To Do
+-----
+
+- [ ] Explain what this boilerplate includes
+- [ ] Documentation of how to setup the production environment
 
