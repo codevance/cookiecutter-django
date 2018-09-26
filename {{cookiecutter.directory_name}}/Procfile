@@ -1,3 +1,3 @@
 release: python manage.py migrate
-web: gunicorn cotacoes.wsgi --log-file -
-worker: celery -A cotacoes worker -E -B --loglevel=DEBUG
+web: gunicorn {{ cookiecutter.project_slug }}.wsgi --log-file -
+worker: celery -A {{ cookiecutter.project_slug }} worker -E -B --loglevel=DEBUG

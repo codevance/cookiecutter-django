@@ -60,5 +60,25 @@ cp env-sample .env
 echo "CURRENT_UID=$(id -u):$(id -g)" >> .env
 ```
 
+Setup no Heroku
+---------------
+
+```bash
+heroku login
+heroku create {{ cookiecutter.project_slug }}-production
+
+heroku config:set SECRET_KEY='---mY-SEcReT---'
+heroku config:set DEBUG=false
+heroku config:set ALLOWED_HOSTS=*
+heroku config:set DATABASE_URL=postgres://{{ cookiecutter.project_slug }}:{{ cookiecutter.project_slug }}@localhost:5432/{{ cookiecutter.project_slug }}
+heroku config:set EMAIL_BACKEND=django.core.mail.backends.console.EmailBackend
+heroku config:set AWS_ACCESS_KEY_ID=my-aws-key
+heroku config:set AWS_SECRET_ACCESS_KEY=my-secret
+heroku config:set AWS_STORAGE_BUCKET_NAME={{ cookiecutter.project_slug }}-static
+heroku config:set DISABLE_COLLECTSTATIC=1
+
+```
+
+
 
 
