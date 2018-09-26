@@ -71,7 +71,7 @@ if DEBUG:
         'debug_toolbar.middleware.DebugToolbarMiddleware',
     ]
 
-MIDDLEWARE = [
+MIDDLEWARE += [
     'django.middleware.cache.UpdateCacheMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',

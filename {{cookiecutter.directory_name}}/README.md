@@ -79,6 +79,20 @@ heroku config:set DISABLE_COLLECTSTATIC=1
 
 ```
 
+How to develop
+--------------
 
+### How to run local dependencies
 
+- Install `docker` and `docker-compose`
+- Run `make docker-compose-dev` to up containers with `postgres` and `redis`
+- Run `make dev` to run development server
 
+### How to run tests
+
+- Install the tests dependencies with `pip install -r requirements-test.txt`
+- Run tests with `make test`
+
+### Tips
+
+- Before commit run `make autopep8` to organize all your code
