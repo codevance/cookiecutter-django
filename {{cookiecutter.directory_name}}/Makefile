@@ -2,7 +2,7 @@ dev:
 	python manage.py runserver -v2
 
 test:
-	DEBUG=False pytest -s -vv --cov=. .
+	DEBUG=false STORAGE_IS_ACTIVATE=false pytest -s -vv --reuse-db --create-db --cov=. .
 
 docker-compose-up:
 	docker-compose -f docker-compose-dev.yml up
@@ -26,3 +26,6 @@ clean_queue:
 	docker-compose run app redis-cli -h redis flushall
 	docker system prune -f
 	docker-compose start celery celery_beat
+
+autopep8:
+    find . -name "*py" | xargs autopep8 --in-place --aggressive --aggressive --max-line-length 100

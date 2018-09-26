@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
 import os
+
+import raven
 from decouple import config, Csv
 from dj_database_url import parse as dburl
 from django.conf.locale.pt_BR import formats
@@ -52,6 +54,7 @@ INSTALLED_APPS = [
     'django_celery_beat',
     'rangefilter',
     'dbbackup',
+    'logentry_admin',
 
     'utils',
     'core.apps.CoreConfig',
@@ -60,6 +63,12 @@ INSTALLED_APPS = [
 if DEBUG:
     INSTALLED_APPS += [
         'debug_toolbar',
+    ]
+
+MIDDLEWARE = []
+if DEBUG:
+    MIDDLEWARE += [
+        'debug_toolbar.middleware.DebugToolbarMiddleware',
     ]
 
 MIDDLEWARE = [
@@ -78,17 +87,12 @@ MIDDLEWARE = [
 # CACHE_MIDDLEWARE_SECONDS = 60
 # CACHE_MIDDLEWARE_KEY_PREFIX = 'prefix'
 
-if DEBUG:
-    MIDDLEWARE += [
-        'debug_toolbar.middleware.DebugToolbarMiddleware',
-    ]
-
 ROOT_URLCONF = '{{ cookiecutter.project_slug }}.urls'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'core/templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -189,10 +193,10 @@ LOGGING = {
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
-        'LOCATION': 'cache/',
+        'LOCATION': '/tmp/dj-cache/',
         'TIMEOUT': None,
         'OPTIONS': {
-            'MAX_ENTRIES': 10**10,
+            'MAX_ENTRIES': 10 ** 10,
         }
     }
 }
