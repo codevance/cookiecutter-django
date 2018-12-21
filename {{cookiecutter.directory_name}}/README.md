@@ -6,6 +6,11 @@
 Setup do servidor de produção
 -----------------------------
 
+### Criando os usuários
+```
+adduser deployment sudo
+```
+
 ### Docker
 ```
 sudo apt-get update
@@ -22,7 +27,7 @@ sudo usermod -aG docker $USER
 ### Python 3
 ```
 sudo apt-get install -y git python-pip make build-essential libssl-dev zlib1g-dev \
-    libbz2-dev libreadline-dev libsqlite3-dev
+    libbz2-dev libreadline-dev libsqlite3-dev libffi-dev
 
 sudo curl -L https://github.com/docker/compose/releases/download/1.21.2/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
 sudo chmod 0777 /usr/local/bin/docker-compose
@@ -32,13 +37,15 @@ echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.bashrc
 echo 'export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.bashrc
 echo -e 'if command -v pyenv 1>/dev/null 2>&1; then\n  eval "$(pyenv init -)"\nfi' >> ~/.bashrc
 
+exec "$SHELL"
+
 git clone https://github.com/pyenv/pyenv-virtualenv.git $(pyenv root)/plugins/pyenv-virtualenv
 echo 'eval "$(pyenv virtualenv-init -)"' >> ~/.bashrc
 
 exec "$SHELL"
 
-pyenv install 3.6.1
-pyenv virtualenv 3.6.1 api-receita
+pyenv install 3.7.1 -v
+pyenv virtualenv 3.7.1 {{cookiecutter.project_name}} 
 
 
 ```
@@ -49,7 +56,7 @@ __Antes de tudo__: crie e insira no github uma chave de deployment)
 
 ```
 cd
-git clone git@github.com:moacirmoda/api-receita.git git
+git clone git@github.com:moacirmoda/{{cookiecutter.project_name}} .git git
 ```
 
 Copie e configure o `.env` do projeto
