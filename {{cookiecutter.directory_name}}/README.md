@@ -52,7 +52,7 @@ pyenv virtualenv 3.7.1 {{cookiecutter.project_name}}
 
 ### Projeto
 
-__Antes de tudo__: crie e insira no github uma chave de deployment)
+[__Antes de tudo__: crie e insira no github uma chave de deployment)](https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/#generating-a-new-ssh-key)
 
 ```
 cd
