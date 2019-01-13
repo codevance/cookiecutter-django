@@ -8,7 +8,7 @@ from celery.schedules import crontab
 # set the default Django settings module for the 'celery' program.
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', '{{ cookiecutter.project_slug }}.settings')
 
-app = Celery('tasks')
+app = Celery('{{ cookiecutter.project_slug }}')
 
 # Using a string here means the worker don't have to serialize
 # the configuration object to child processes.
