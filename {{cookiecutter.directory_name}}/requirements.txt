@@ -1,3 +1,4 @@
+black
 celery
 dj-database-url
 Django

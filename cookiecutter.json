@@ -7,5 +7,6 @@
   "domain_name": "codevance.com.br",
   "email": "moacir.moda@codevance.com.br",
   "version": "0.1.0",
-  "timezone": "America/Sao_Paulo"
+  "timezone": "America/Sao_Paulo",
+  "virtualenv_rootpath": "/Users/moa/.ve"
 }
