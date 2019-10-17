@@ -28,4 +28,4 @@ clean_queue:
 	docker-compose start celery celery_beat
 
 autopep8:
-    find . -name "*py" | xargs autopep8 --in-place --aggressive --aggressive --max-line-length 100
+	find . -name "*py" | xargs autopep8 --in-place --aggressive --aggressive --max-line-length 100
