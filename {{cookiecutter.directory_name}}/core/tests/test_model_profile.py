@@ -1,8 +1,8 @@
 from django.test import TestCase
-from model_mommy import mommy
+from model_bakery import baker
 
 
 class ModelTestCase(TestCase):
     def test_model_profile(self):
-        user = mommy.make('User')
+        user = baker.make('User')
         assert user.profile is not None

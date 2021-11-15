@@ -1,14 +1,14 @@
 import pytest
 from django.contrib.admin.models import LogEntry, ADDITION, CHANGE
-from model_mommy import mommy
+from model_bakery import baker
 
 from . import create_logentry
 
 
 @pytest.mark.django_db
 def test_create_logentry():
-    user1 = mommy.make('User')
-    user2 = mommy.make('User')
+    user1 = baker.make('User')
+    user2 = baker.make('User')
 
     assert not LogEntry.objects.all()
 

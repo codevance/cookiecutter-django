@@ -1,4 +1,4 @@
-{{cookiecutter.project_name}} 
+{{cookiecutter.project_name}}
 {{ '=' * cookiecutter.project_name|length }}
 
 {{cookiecutter.description}}
@@ -44,8 +44,8 @@ echo 'eval "$(pyenv virtualenv-init -)"' >> ~/.bashrc
 
 exec "$SHELL"
 
-pyenv install 3.7.1 -v
-pyenv virtualenv 3.7.1 {{cookiecutter.project_name}} 
+pyenv install 3.9.8 -v
+pyenv virtualenv 3.9.8 {{cookiecutter.project_name}}
 
 
 ```

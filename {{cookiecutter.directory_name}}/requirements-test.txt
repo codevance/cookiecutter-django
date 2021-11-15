@@ -1,6 +1,6 @@
 -r requirements.txt
 autopep8
-model-mommy
+model-bakery
 pytest
 pytest-cov
 pytest-django
