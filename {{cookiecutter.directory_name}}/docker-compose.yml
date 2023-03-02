@@ -6,7 +6,7 @@ services:
     image: postgres:9.6.0
     restart: always
     volumes:
-      - ../pgdata:/var/lib/postgresql/data
+      - {{ cookiecutter.project_slug }}_pgdata:/var/lib/postgresql/data
     environment:
       - LC_ALL=C.UTF-8
       - POSTGRES_PASSWORD={{ cookiecutter.project_slug }}
@@ -75,3 +75,6 @@ services:
       - app
     depends_on:
       - app
+
+volumes:
+  {{ cookiecutter.project_slug }}_pgdata:
